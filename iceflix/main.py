@@ -28,23 +28,15 @@ class Main(IceFlix.Main):
         """Share the current database with an incoming service."""
         service.updateDB(None, self.service_id)
 
-    def getAuthenticator():
+    def getAuthenticator(): # throws TemporaryUnavailable
         """Returns a proxy to an authentication service"""
 
-        return " "
+        return "Authenticator*" 
 
-    def getCatalog():
+    def getCatalog(): # throws TemporaryUnavailable
         """Returns a proxy to a catalog service"""
 
-        return " "
-
-    def isAdmin(userToken):
-        """Returns a boolean value to check if the provided token corresponds or not with the administrative one"""
-        value = False
-        if userToken == "administrative":
-            value = True
-
-        return value
+        return "MediaCatalog*"
 
     def updateDB(self, values, service_id, current):
         """Receives an updated service database provided by another instance of this service"""
@@ -53,6 +45,14 @@ class Main(IceFlix.Main):
         logging.info(
             "Receiving remote data base from %s to %s", service_id, self.service_id
         )
+
+    def isAdmin(userToken):
+        """Returns a boolean value to check if the provided token corresponds or not with the administrative one"""
+        value = False
+        if userToken == "administrative":
+            value = True
+
+        return value
 
 
 class MainApp(Ice.Application):
