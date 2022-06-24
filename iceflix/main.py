@@ -28,9 +28,27 @@ class Main(IceFlix.Main):
         """Share the current database with an incoming service."""
         service.updateDB(None, self.service_id)
 
-    def updateDB(
-        self, values, service_id, current
-    ):  # pylint: disable=invalid-name,unused-argument
+    def getAuthenticator():
+        """Returns a proxy to an authentication service"""
+
+        return " "
+
+    def getCatalog():
+        """Returns a proxy to a catalog service"""
+
+        return " "
+
+    def isAdmin(userToken):
+        """Returns a boolean value to check if the provided token corresponds or not with the administrative one"""
+        value = False
+        if userToken == "administrative":
+            value = True
+
+        return value
+
+    def updateDB(self, values, service_id, current):
+        """Receives an updated service database provided by another instance of this service"""
+        # pylint: disable=invalid-name,unused-argument
         """Receives the current main service database from a peer."""
         logging.info(
             "Receiving remote data base from %s to %s", service_id, self.service_id
