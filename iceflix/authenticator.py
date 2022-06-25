@@ -1,6 +1,16 @@
 
+USERS_FILE = 'users.json'
 
-class Authenticator:
+class Authenticator(Iceflix.Authenticator):
+    
+    def __init__(self):
+        self._users_ = {}
+        self._active_tokens_ = set()
+        if os.path.exists(USERS_FILE):
+            self.refresh()
+        else:
+            self.__commit__()
+        
 
     def refreshAuthorization(user, passwordHash): #throws Unauthorized
         return " "
