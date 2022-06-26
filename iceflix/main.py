@@ -2,15 +2,27 @@
 
 import logging
 import uuid
+import sys
+import argparse
 
 import Ice
+Ice.loadSlice('iceflix.ice')
 import IceStorm
 
+
 import IceFlix
-from iceflix.service_announcement import (
+"""from Iceflix.service_announcement import (
+    ServiceAnnouncementsListener,
+    ServiceAnnouncementsSender,
+)"""
+
+from service_announcement import (
     ServiceAnnouncementsListener,
     ServiceAnnouncementsSender,
 )
+
+EXIT_OK = 0
+BAD_COMMAND_LINE = 1
 
 
 class Main(IceFlix.Main):
@@ -109,3 +121,31 @@ class MainApp(Ice.Application):
 
         self.announcer.stop()
         return 0
+
+
+def parse_commandline():
+    '''Parse and check commandline'''
+    parser = argparse.ArgumentParser('IceDungeon Local Game')
+    parser.add_argument('PROXY',nargs='+', default=None,help='Proxy GameServer')
+    parser.add_argument(
+        '-p', '--player', default=DEFAULT_HERO, choices=game.common.HEROES,
+        dest='hero', help='Hero to play with'
+    )
+    options = parser.parse_args()
+
+    return options
+
+
+def main(argv):
+    '''Iniciar aplicacion'''
+    user_options = parse_commandline()
+    if not user_options:
+        return BAD_COMMAND_LINE
+    start_app = MainApp(user_options)
+    start_app.main(argv)
+
+    return EXIT_OK
+
+
+if __name__ == '__main__':
+    sys.exit(main(sys.argv))
